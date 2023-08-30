@@ -1,10 +1,14 @@
 import { createApp } from 'vue'
+import { defaults } from 'mande'
 
-import App from './src/App.vue'
+import App from './App.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
-import Posts from './src/views/Posts.vue'
-import Books from './src/views/Books.vue'
+import Posts from './views/Posts.vue'
+import Books from './views/Books.vue'
+
+const token = __DIRECTUS_TOKEN__
+defaults.headers.Authorization = `Bearer ${token}`
 
 const router = createRouter({
   history: createWebHistory(),

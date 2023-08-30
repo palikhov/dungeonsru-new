@@ -17,7 +17,11 @@ export default defineComponent({
   },
   async mounted() {
     const api = mande('api')
-    const response = await api.get<BackendResponse<Post>>('/items/posts')
+    const response = await api.get<BackendResponse<Post>>('/items/posts', {
+      query: {
+        sort: '-date_created'
+      }
+    })
     this.posts = response.data
   },
   data() {
