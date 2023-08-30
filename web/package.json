@@ -6,7 +6,7 @@
   "scripts": {
     "test": "vitest",
     "dev": "vite",
-    "build": "vite build"
+    "build": "vue-tsc && vite build"
   },
   "author": "ArchiDevil",
   "license": "ISC",
@@ -17,9 +17,11 @@
     "tailwindcss": "^3.3.3",
     "typescript": "^5.2.2",
     "vite": "^4.4.9",
-    "vitest": "^0.34.3"
+    "vitest": "^0.34.3",
+    "vue-tsc": "^1.8.8"
   },
   "dependencies": {
+    "mande": "^2.0.7",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4"
   }

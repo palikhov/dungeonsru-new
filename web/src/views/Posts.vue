@@ -1,27 +1,28 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import {defineComponent} from 'vue'
+import {mande} from 'mande'
+
+import type {BackendResponse} from '../interfaces'
 import Post from '../components/Post.vue'
+
+interface Post {
+  id: number
+  title: string
+  content: string
+}
 
 export default defineComponent({
   components: {
     Post,
   },
+  async mounted() {
+    const api = mande('api')
+    const response = await api.get<BackendResponse<Post>>('/items/posts')
+    this.posts = response.data
+  },
   data() {
     return {
-      posts: [
-        {
-          id: 1,
-          title: 'My second post',
-          content:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, diam id aliquam ultricies, nunc ipsum tincidunt nunc, vitae aliquet nisl nunc sed nunc. Sed vitae nisl eget nisl aliquet aliquam. Sed vitae nisl eget nisl aliquet aliquam.',
-        },
-        {
-          id: 2,
-          title: 'My first post',
-          content:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, diam id aliquam ultricies, nunc ipsum tincidunt nunc, vitae aliquet nisl nunc sed nunc. Sed vitae nisl eget nisl aliquet aliquam. Sed vitae nisl eget nisl aliquet aliquam.',
-        },
-      ],
+      posts: [] as Post[],
     }
   },
 })

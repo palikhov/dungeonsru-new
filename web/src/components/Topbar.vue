@@ -1,6 +1,6 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { RouterLink } from 'vue-router'
+import {defineComponent} from 'vue'
+import {RouterLink} from 'vue-router'
 
 export default defineComponent({
   components: {
@@ -11,18 +11,8 @@ export default defineComponent({
 
 <template>
   <div class="my-12">
-    <RouterLink
-      class="mr-10"
-      to="/"
-    >
-      Blog
-    </RouterLink>
-    <RouterLink
-      class="mx-10"
-      to="/books"
-    >
-      Books
-    </RouterLink>
+    <RouterLink class="mr-10" to="/"> Blog </RouterLink>
+    <RouterLink class="mx-10" to="/books"> Books </RouterLink>
   </div>
 </template>
 

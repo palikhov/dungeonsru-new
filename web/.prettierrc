@@ -1,9 +1,9 @@
 {
     "arrowParens": "always",
-    "bracketSpacing": true,
+    "bracketSpacing": false,
     "htmlWhitespaceSensitivity": "css",
     "insertPragma": false,
-    "singleAttributePerLine": true,
+    "singleAttributePerLine": false,
     "bracketSameLine": false,
     "jsxBracketSameLine": false,
     "jsxSingleQuote": false,
