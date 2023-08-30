@@ -1,9 +1,20 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-export default defineComponent({})
+import Topbar from './components/Topbar.vue'
+import { RouterView } from 'vue-router'
+
+export default defineComponent({
+  components: {
+    Topbar,
+    RouterView,
+  },
+})
 </script>
 
 <template>
-  <h1 class="text-slate-800">Hello, World!</h1>
+  <div class="container px-12">
+    <Topbar></Topbar>
+    <RouterView></RouterView>
+  </div>
 </template>
