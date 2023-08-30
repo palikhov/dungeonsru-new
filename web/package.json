@@ -11,6 +11,7 @@
   "author": "ArchiDevil",
   "license": "ISC",
   "devDependencies": {
+    "@types/marked": "^5.0.1",
     "@vitejs/plugin-vue": "^4.3.4",
     "autoprefixer": "^10.4.15",
     "postcss": "^8.4.29",
@@ -22,6 +23,7 @@
   },
   "dependencies": {
     "mande": "^2.0.7",
+    "marked": "^7.0.5",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4"
   }
