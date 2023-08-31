@@ -5,7 +5,7 @@ import {mande} from 'mande'
 import type {BackendResponse} from '../interfaces'
 import Post from '../components/Post.vue'
 
-interface Post {
+interface PostData {
   id: number
   title: string
   content: string
@@ -17,16 +17,16 @@ export default defineComponent({
   },
   async mounted() {
     const api = mande('api')
-    const response = await api.get<BackendResponse<Post>>('/items/posts', {
+    const response = await api.get<BackendResponse<PostData>>('/items/posts', {
       query: {
-        sort: '-date_created'
-      }
+        sort: '-date_created',
+      },
     })
     this.posts = response.data
   },
   data() {
     return {
-      posts: [] as Post[],
+      posts: [] as PostData[],
     }
   },
 })
