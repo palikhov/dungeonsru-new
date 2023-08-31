@@ -28,7 +28,7 @@ export default defineComponent({
   </div>
 </template>
 
-<style>
+<style scoped>
 .blogpost p {
   @apply font-light;
 }

@@ -27,14 +27,20 @@ export default defineComponent({
       required: true,
     },
   },
+  computed: {
+    coverPath() {
+      return `/api/assets/${this.cover}`
+    },
+    filePath() {
+      return `/api/assets/${this.downloadLink}?download`
+    },
+  },
 })
 </script>
 
 <template>
   <div class="bg-slate-200 flex mt-6 border-slate-400 border-l-2 p-4">
-    <div class="mr-4">
-      <img :src="cover" class="h-40" />
-    </div>
+    <img :src="coverPath" class="w-48 h-fit mr-4" />
     <div>
       <h2 class="book-title">{{ title }}</h2>
       <p class="book-description">{{ description }}</p>
@@ -43,7 +49,7 @@ export default defineComponent({
         <div class="bg-lime-400 h-4 w-4 rounded-full mr-2"></div>
         Done
       </div>
-      <a class="underline" :href="downloadLink">Download</a>
+      <a class="underline" :href="filePath">Download</a>
     </div>
   </div>
 </template>
