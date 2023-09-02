@@ -39,17 +39,14 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="bg-slate-200 flex mt-6 border-slate-400 border-l-2 p-4">
+  <div class="bg-slate-200 flex mt-6 border-slate-400 border-l-4 p-4">
     <img :src="coverPath" class="w-48 h-fit mr-4" />
     <div>
       <h2 class="book-title">{{ title }}</h2>
       <p class="book-description">{{ description }}</p>
       <span v-for="tag in tags" class="mr-2 tag">#{{ tag }}</span>
-      <div class="flex flex-row items-baseline">
-        <div class="bg-lime-400 h-4 w-4 rounded-full mr-2"></div>
-        Done
-      </div>
-      <a class="underline" :href="filePath">Download</a>
+      <br />
+      <a :href="filePath">Скачать</a>
     </div>
   </div>
 </template>
@@ -68,10 +65,8 @@ export default defineComponent({
 }
 
 a {
-  @apply underline text-slate-700;
-}
-
-a:hover {
-  @apply text-slate-950;
+  @apply no-underline inline-block mt-2 mr-2 mb-2  px-2 py-1 rounded;
+  @apply text-slate-700 bg-slate-300;
+  @apply hover:text-slate-800 hover:bg-slate-400;
 }
 </style>
