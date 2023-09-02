@@ -10,9 +10,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="my-12">
-    <RouterLink class="mr-10" to="/"> Blog </RouterLink>
-    <RouterLink class="mx-10" to="/books"> Books </RouterLink>
+  <div class="my-12 flex flex-row-reverse">
+    <RouterLink class="mx-10" to="/books">Каталог материалов</RouterLink>
+    <RouterLink class="mr-10" to="/">Блог</RouterLink>
   </div>
 </template>
 
