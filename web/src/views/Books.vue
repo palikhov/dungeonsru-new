@@ -2,38 +2,64 @@
 import {defineComponent} from 'vue'
 
 import Book from '../components/Book.vue'
-import {BackendResponse} from '../interfaces'
-import {mande} from 'mande'
-
-interface BookData {
-  id: number
-  title: string
-  tags: string[]
-  finished: boolean
-  cover: string
-  description: string
-  file: string
-}
+import {useAppStore} from '../stores/store'
 
 export default defineComponent({
   components: {
     Book,
   },
+  computed: {
+    books() {
+      const store = useAppStore()
+      return store.books
+    },
+  },
   data() {
     return {
-      books: [] as BookData[],
+      filterTags: [
+        'DnD 5e',
+        'Adventures',
+        'Forgotten Realms',
+        'Adventurers League',
+      ],
+      selectedTags: [] as string[],
     }
   },
+  methods: {
+    toggleTag(tag: string) {
+      const index = this.selectedTags.findIndex((in_) => in_ == tag)
+      if (index == -1) {
+        this.selectedTags.push(tag)
+      } else {
+        this.selectedTags.splice(index, 1)
+      }
+      const store = useAppStore()
+      store.getBooks(this.selectedTags)
+    },
+  },
   async mounted() {
-    const api = mande('api')
-    const response = await api.get<BackendResponse<BookData>>('/items/books')
-    this.books = response.data
+    const store = useAppStore()
+    await store.getBooks([])
   },
 })
 </script>
 
 <template>
-  <h1 class="text-slate-800 font-sans font-semibold text-5xl">Books</h1>
+  <h1 class="page-title">Книги</h1>
+  <div class="flex flex-wrap">
+    <button
+      v-for="tag in filterTags"
+      :key="tag"
+      class="tag-button"
+      :class="{
+        'bg-slate-200': !selectedTags.includes(tag),
+        'bg-slate-400': selectedTags.includes(tag),
+      }"
+      @click="toggleTag(tag)"
+    >
+      {{ tag }}
+    </button>
+  </div>
   <Book
     v-for="book in books"
     :key="book.id"
@@ -45,3 +71,9 @@ export default defineComponent({
     :download-link="book.file"
   />
 </template>
+
+<style scoped>
+.tag-button {
+  @apply mr-2 mb-2 text-slate-800 px-2 py-1 rounded hover:bg-slate-500 hover:text-slate-100;
+}
+</style>
