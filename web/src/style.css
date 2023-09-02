@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.page-title {
+  @apply text-slate-800 font-sans font-semibold text-5xl mb-8;
+}
