@@ -1,9 +1,11 @@
 localhost {
     root * /usr/share/caddy
-    encode gzip
     file_server
-    handle /api* {
+    handle /api/* {
         uri strip_prefix /api
         reverse_proxy directus:8055
+    }
+    handle {
+        try_files {path} {path}/ /index.html
     }
 }
