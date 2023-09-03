@@ -3,6 +3,7 @@ import {defineComponent} from 'vue'
 
 import Book from '../components/Book.vue'
 import {useAppStore} from '../stores/store'
+import {BookTag} from '../interfaces'
 
 export default defineComponent({
   components: {
@@ -13,44 +14,18 @@ export default defineComponent({
       const store = useAppStore()
       return store.books
     },
+    filterTags() {
+      const store = useAppStore()
+      return store.bookTags
+    },
   },
   data() {
     return {
-      filterTags: [
-        '5e',
-        '3.5e',
-        '3.0e',
-        '4e',
-        'AD&D',
-        'Dark Sun',
-        'Dragonlance',
-        'Eberron',
-        'Midgard',
-        'Ravenloft',
-        'Spelljammer',
-        'Славяника',
-        'Из журнала',
-        'Комиксы',
-        'Новости',
-        'Полевые игры',
-        'Творчество',
-        'Рассказы',
-        'Статьи',
-        'Тесты',
-        'Юмор',
-        'Forgotten Realms',
-        'Adventurers League',
-        'Homebrew',
-        'Правила',
-        'Приключения',
-        'Прочее',
-        'BD&D',
-      ],
-      selectedTags: [] as string[],
+      selectedTags: [] as BookTag[],
     }
   },
   methods: {
-    toggleTag(tag: string) {
+    toggleTag(tag: BookTag) {
       const index = this.selectedTags.findIndex((in_) => in_ == tag)
       if (index == -1) {
         this.selectedTags.push(tag)
@@ -63,6 +38,7 @@ export default defineComponent({
   },
   async mounted() {
     const store = useAppStore()
+    await store.getTags()
     await store.getBooks([])
   },
 })
@@ -73,7 +49,7 @@ export default defineComponent({
   <div class="flex flex-wrap">
     <button
       v-for="tag in filterTags"
-      :key="tag"
+      :key="tag.id"
       class="tag-button"
       :class="{
         'bg-slate-200': !selectedTags.includes(tag),
@@ -81,7 +57,7 @@ export default defineComponent({
       }"
       @click="toggleTag(tag)"
     >
-      {{ tag }}
+      {{ tag.name }}
     </button>
   </div>
   <Book
@@ -90,7 +66,7 @@ export default defineComponent({
     :title="book.title"
     :finished="book.finished"
     :cover="book.cover"
-    :tags="book.tags"
+    :tags="book.tags.map((tag) => tag.book_tags_id)"
     :description="book.description"
     :download-link="book.file"
   />

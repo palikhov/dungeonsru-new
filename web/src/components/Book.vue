@@ -1,5 +1,6 @@
 <script lang="ts">
 import {defineComponent} from 'vue'
+import {BookTag} from '../interfaces'
 
 export default defineComponent({
   props: {
@@ -8,7 +9,7 @@ export default defineComponent({
       required: true,
     },
     tags: {
-      type: Array<String>,
+      type: Array<BookTag>,
       default: [],
     },
     finished: {
@@ -39,12 +40,14 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="bg-slate-200 mt-6 border-slate-400 border-l-4 p-4 gap-4 grid grid-cols-5">
+  <div
+    class="bg-slate-200 mt-6 border-slate-400 border-l-4 p-4 gap-4 grid grid-cols-5"
+  >
     <img :src="coverPath" class="w-48 h-fit mr-4 col" />
     <div class="col-span-4">
       <h2 class="book-title">{{ title }}</h2>
       <p class="book-description">{{ description }}</p>
-      <span v-for="tag in tags" class="mr-2 tag">#{{ tag }}</span>
+      <span v-for="tag in tags" class="mr-2 tag">#{{ tag.name }}</span>
       <br />
       <a :href="filePath">Скачать</a>
     </div>

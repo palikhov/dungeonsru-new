@@ -1,43 +1,63 @@
 import {mande} from 'mande'
 import {defineStore} from 'pinia'
-import {BackendResponse, BookData} from '../interfaces'
+import {BackendResponse, BookData, BookTag} from '../interfaces'
 
 export const useAppStore = defineStore('app', {
   state() {
     return {
       books: [] as BookData[],
+      bookTags: [] as BookTag[],
     }
   },
   actions: {
-    async getBooks(tags: string[]) {
+    async getTags() {
       const api = mande('api')
-      let data: any = []
-      if (tags.length != 0) {
-        // TODO: Directus does not support filtering in JSON fields
-        // this should handled by https://github.com/directus/directus/pull/15889
-        // but it is not completed yet :(
-        const filter = {
-          tags_test: {
-            _contains: tags[0],
-          },
-        }
-        const api = mande('api')
+      const response = await api.get<BackendResponse<BookTag>>(
+        'items/book_tags'
+      )
+      this.bookTags = response.data
+    },
+    async getBooks(tags: BookTag[]) {
+      const api = mande('api')
+      const fields_string = '*,tags.book_tags_id.*'
+      if (tags.length == 0) {
         const response = await api.get<BackendResponse<BookData>>(
           '/items/books',
           {
             query: {
-              filter: JSON.stringify(filter),
+              fields: fields_string,
             },
           }
         )
         this.books = response.data
-      } else {
-        const response = await api.get<BackendResponse<BookData>>(
-          '/items/books'
-        )
-        this.books = response.data
+        return
       }
-      return data
+
+      const filter = {
+        _and: tags.map((tag) => {
+          return {
+            tags: {
+              _some: {
+                book_tags_id: {
+                  id: {
+                    _eq: tag.id,
+                  },
+                },
+              },
+            },
+          }
+        }),
+      }
+      const response = await api.get<BackendResponse<BookData>>(
+        '/items/books',
+        {
+          query: {
+            filter: JSON.stringify(filter),
+            fields: fields_string,
+          },
+        }
+      )
+      this.books = response.data
     },
   },
 })
