@@ -5,12 +5,12 @@ services:
     ports:
       - 8055:8055
     volumes:
-      - ./database:/directus/database
-      - ./uploads:/directus/uploads
+      - database:/directus/database
+      - uploads:/directus/uploads
     environment:
       KEY: '${DIRECTUS_KEY}'
       SECRET: '${DIRECTUS_SECRET}'
-      ADMIN_EMAIL: '${DIRECTUS_ADMIN}'
+      ADMIN_EMAIL: '${DIRECTUS_ADMIN_LOGIN}'
       ADMIN_PASSWORD: '${DIRECTUS_ADMIN_PASS}'
       DB_CLIENT: 'sqlite3'
       DB_FILENAME: '/directus/database/data.db'
@@ -20,7 +20,10 @@ services:
     build:
       context: web
     ports:
-      - 80:80
-      - 443:443
+      - 8091:80
     depends_on:
       - directus
+
+volumes:
+  database:
+  uploads:
