@@ -21,6 +21,7 @@ export default defineComponent({
   },
   data() {
     return {
+      searchText: '',
       selectedTags: [] as BookTag[],
     }
   },
@@ -33,13 +34,24 @@ export default defineComponent({
         this.selectedTags.splice(index, 1)
       }
       const store = useAppStore()
-      store.getBooks(this.selectedTags)
+      store.getBooks(
+        this.selectedTags,
+        this.searchText.length ? this.searchText : null
+      )
+    },
+    async search(event: KeyboardEvent) {
+      if (event.key != 'Enter') return
+      const store = useAppStore()
+      await store.getBooks(
+        this.selectedTags,
+        this.searchText.length ? this.searchText : null
+      )
     },
   },
   async mounted() {
     const store = useAppStore()
     await store.getTags()
-    await store.getBooks([])
+    await store.getBooks([], null)
   },
 })
 </script>
@@ -60,6 +72,13 @@ export default defineComponent({
       {{ tag.name }}
     </button>
   </div>
+  <input
+    type="text"
+    class="w-full mt-4 p-2 border-2"
+    v-model="searchText"
+    @keypress="(event) => search(event as KeyboardEvent)"
+    placeholder="Поиск материала"
+  />
   <Book
     v-for="book in books"
     :key="book.id"

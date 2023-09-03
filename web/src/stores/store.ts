@@ -17,17 +17,24 @@ export const useAppStore = defineStore('app', {
       )
       this.bookTags = response.data
     },
-    async getBooks(tags: BookTag[]) {
+    async getBooks(tags: BookTag[], query: string | null) {
       const api = mande('api')
       const fields_string = '*,tags.book_tags_id.*'
       if (tags.length == 0) {
         const response = await api.get<BackendResponse<BookData>>(
           '/items/books',
-          {
-            query: {
-              fields: fields_string,
-            },
-          }
+          query
+            ? {
+                query: {
+                  fields: fields_string,
+                  search: query,
+                },
+              }
+            : {
+                query: {
+                  fields: fields_string,
+                },
+              }
         )
         this.books = response.data
         return
@@ -50,12 +57,20 @@ export const useAppStore = defineStore('app', {
       }
       const response = await api.get<BackendResponse<BookData>>(
         '/items/books',
-        {
-          query: {
-            filter: JSON.stringify(filter),
-            fields: fields_string,
-          },
-        }
+        query
+          ? {
+              query: {
+                filter: JSON.stringify(filter),
+                fields: fields_string,
+                search: query,
+              },
+            }
+          : {
+              query: {
+                filter: JSON.stringify(filter),
+                fields: fields_string,
+              },
+            }
       )
       this.books = response.data
     },
