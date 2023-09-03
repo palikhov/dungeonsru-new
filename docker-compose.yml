@@ -1,0 +1,26 @@
+version: '3'
+services:
+  directus:
+    image: directus/directus:10.6.1
+    ports:
+      - 8055:8055
+    volumes:
+      - ./database:/directus/database
+      - ./uploads:/directus/uploads
+    environment:
+      KEY: '${DIRECTUS_KEY}'
+      SECRET: '${DIRECTUS_SECRET}'
+      ADMIN_EMAIL: '${DIRECTUS_ADMIN}'
+      ADMIN_PASSWORD: '${DIRECTUS_ADMIN_PASS}'
+      DB_CLIENT: 'sqlite3'
+      DB_FILENAME: '/directus/database/data.db'
+      WEBSOCKETS_ENABLED: true
+
+  web:
+    build:
+      context: web
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - directus
